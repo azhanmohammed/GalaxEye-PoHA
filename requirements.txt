@@ -1,7 +1,5 @@
 folium
 geopandas
-rasterio
-gdal
 branca
 streamlit_folium
 streamlit
