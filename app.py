@@ -153,7 +153,7 @@ if choose == "pH":
             folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
         st_map = st_folium(map, width=1000, height=650)
     with col2:               # To display brand log
-        st.image(Image.open("./static/pHLegend.png"))
+        st.image(Image.open("./static/phLegend.png"))
 
 if choose == "Salinity":
     col1, col2 = st.columns( [0.8, 0.2])
