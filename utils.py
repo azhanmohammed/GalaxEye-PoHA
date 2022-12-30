@@ -1,8 +1,8 @@
 def popupTable(dataframe, row):
     chlorophyll = dataframe["Chlorophyll"][row]
-    dissolvedo2 = dataframe["DissolvedOxygen"][row]
+    dissolvedo2 = str(dataframe["DissolvedOxygen"][row])+"mg/l"
     ph = dataframe["pH"][row]
-    salinity = dataframe["Salinity"][row]
+    salinity = str(dataframe["Salinity"][row])+"ppt"
     turbidity = dataframe["Turbidity"][row]
     centroidCoordinates = ['%.6f'%dataframe["geometry"][row].centroid.x, '%.6f'%dataframe["geometry"][row].centroid.y] 
     
