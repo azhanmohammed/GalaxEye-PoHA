@@ -232,34 +232,125 @@ if choose == "Custom Filter":
         st.image(logo, width=130)
 
     col1, col2 = st.columns( [0.8, 0.2])
-    with col1:               # To display the header text using css style
-        map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=15, scrollWheelZoom=True, tiles='CartoDB positron')
-        img = folium.raster_layers.ImageOverlay(
-        name="Dissolved Oxygen",
-        image="./static/turbidity.png",
-        bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
-        opacity=1.0,
-        interactive=True,
-        cross_origin=False,
-        zindex=1,
-        )
-
-        img.add_to(map)
-        for l, row in enumerate(dataframe.iterrows()):
-            html = popupTable(dataframe, l)
-            iframe = branca.element.IFrame(html=html,width=700,height=600)
-            popup = folium.Popup(folium.Html(html, script=True), max_width=500)
-            folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
-        st_map = st_folium(map, width=1000, height=650)
     with col2:               # To display brand log
         option = st.radio('Select custom filter',("Chlorophyll","Dissolved Oxygen","pH","Salinity","Turbidity"))
         if option=="Chlorophyll":
-            value = st.slider('Select Chlorophyll Index Range', 0.0, 1.0, 0.1)
+            value = st.slider('Select Chlorophyll Index Range', dataframe["Chlorophyll"].min(), dataframe["Chlorophyll"].max(), 0.1)
+            with col1:               # To display the header text using css style
+                map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
+                img = folium.raster_layers.ImageOverlay(
+                    name="Custom Filter",
+                    image="./static/rgbimage.png",
+                    bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
+                    opacity=1.0,
+                    interactive=True,
+                    cross_origin=False,
+                    zindex=1)
+
+                img.add_to(map)
+                for l, row in enumerate(dataframe.iterrows()):
+                    chlorophyll = '%.6f'%dataframe["Chlorophyll"][l]
+                    if float(chlorophyll)>float(value):
+                        html = popupTable(dataframe, l)
+                        iframe = branca.element.IFrame(html=html,width=700,height=600)
+                        popup = folium.Popup(folium.Html(html, script=True), max_width=500)
+                        folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
+                    else:
+                        continue
+                st_map = st_folium(map, width=1000, height=650)
         if option=="Dissolved Oxygen":
-            value = st.slider('Select Dissolved Oxygen Range (mg/L)', 0.0, 1.0, 0.1)
+            value = st.slider('Select Dissolved Oxygen Range (mg/L)', dataframe["DissolvedOxygen"].min(), dataframe["DissolvedOxygen"].max(), 0.1)
+            with col1:               # To display the header text using css style
+                map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
+                img = folium.raster_layers.ImageOverlay(
+                    name="Custom Filter",
+                    image="./static/rgbimage.png",
+                    bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
+                    opacity=1.0,
+                    interactive=True,
+                    cross_origin=False,
+                    zindex=1)
+
+                img.add_to(map)
+                for l, row in enumerate(dataframe.iterrows()):
+                    dissolvedoxygen = '%.6f'%dataframe["DissolvedOxygen"][l]
+                    if float(dissolvedoxygen)>float(value):
+                        html = popupTable(dataframe, l)
+                        iframe = branca.element.IFrame(html=html,width=700,height=600)
+                        popup = folium.Popup(folium.Html(html, script=True), max_width=500)
+                        folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
+                    else:
+                        continue
+                st_map = st_folium(map, width=1000, height=650)
         if option=="pH":
-            value = st.slider('Select pH Range', 0.0, 1.0, 0.1)
+            value = st.slider('Select pH Range', 0.0, 14.0, 0.1)
+            with col1:               # To display the header text using css style
+                map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
+                img = folium.raster_layers.ImageOverlay(
+                    name="Custom Filter",
+                    image="./static/rgbimage.png",
+                    bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
+                    opacity=1.0,
+                    interactive=True,
+                    cross_origin=False,
+                    zindex=1)
+
+                img.add_to(map)
+                for l, row in enumerate(dataframe.iterrows()):
+                    pH = '%.6f'%dataframe["pH"][l]
+                    if float(pH)>float(value):
+                        html = popupTable(dataframe, l)
+                        iframe = branca.element.IFrame(html=html,width=700,height=600)
+                        popup = folium.Popup(folium.Html(html, script=True), max_width=500)
+                        folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
+                    else:
+                        continue
+                st_map = st_folium(map, width=1000, height=650)
         if option=="Salinity":
-            value = st.slider('Select Salinity Range (ppt)', 0.0, 1.0, 0.1)
+            value = st.slider('Select Salinity Range (ppt)', dataframe["Salinity"].min(), dataframe["Salinity"].max(), 0.1)
+            with col1:               # To display the header text using css style
+                map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
+                img = folium.raster_layers.ImageOverlay(
+                    name="Custom Filter",
+                    image="./static/rgbimage.png",
+                    bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
+                    opacity=1.0,
+                    interactive=True,
+                    cross_origin=False,
+                    zindex=1)
+
+                img.add_to(map)
+                for l, row in enumerate(dataframe.iterrows()):
+                    salinity = '%.6f'%dataframe["Salinity"][l]
+                    if float(salinity)>float(value):
+                        html = popupTable(dataframe, l)
+                        iframe = branca.element.IFrame(html=html,width=700,height=600)
+                        popup = folium.Popup(folium.Html(html, script=True), max_width=500)
+                        folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
+                    else:
+                        continue
+                st_map = st_folium(map, width=1000, height=650)
         if option=="Turbidity":
-            value = st.slider('Select Turbidity Range (NTU)', 0.0, 1.0, 0.1)
+            value = st.slider('Select Turbidity Range (NTU)', 0, 100, 5)
+            with col1:               # To display the header text using css style
+                map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
+                img = folium.raster_layers.ImageOverlay(
+                    name="Custom Filter",
+                    image="./static/rgbimage.png",
+                    bounds=[[-2.460891311086019, -79.99976724386217], [-2.4354694248845985, -79.96761258691551]],
+                    opacity=1.0,
+                    interactive=True,
+                    cross_origin=False,
+                    zindex=1)
+
+                img.add_to(map)
+                for l, row in enumerate(dataframe.iterrows()):
+                    turbidity = '%.6f'%dataframe["Turbidity"][l]
+                    if float(turbidity)>float(value):
+                        html = popupTable(dataframe, l)
+                        iframe = branca.element.IFrame(html=html,width=700,height=600)
+                        popup = folium.Popup(folium.Html(html, script=True), max_width=500)
+                        folium.GeoJson(data=row[1][5], popup=popup).add_to(map)
+                    else:
+                        continue
+                st_map = st_folium(map, width=1000, height=650)
