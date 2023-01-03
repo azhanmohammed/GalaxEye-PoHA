@@ -1,9 +1,9 @@
 def popupTable(dataframe, row):
-    chlorophyll = dataframe["Chlorophyll"][row]
-    dissolvedo2 = str(dataframe["DissolvedOxygen"][row])+" mg/l"
-    ph = dataframe["pH"][row]
-    salinity = str(dataframe["Salinity"][row])+" ppt"
-    turbidity = dataframe["Turbidity"][row]
+    chlorophyll = '%.6f'%dataframe["Chlorophyll"][row]
+    dissolvedo2 = str('%.6f'%dataframe["DissolvedOxygen"][row])+" mg/l"
+    ph = '%.6f'%dataframe["pH"][row]
+    salinity = str('%.6f'%dataframe["Salinity"][row])+" ppt"
+    turbidity = str('%.6f'%dataframe["Turbidity"][row])+" NTU"
     centroidCoordinates = ['%.6f'%dataframe["geometry"][row].centroid.x, '%.6f'%dataframe["geometry"][row].centroid.y] 
     
     html = """<!DOCTYPE html>
