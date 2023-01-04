@@ -15,7 +15,7 @@ st.set_page_config(page_title='GalaxEye Space PoHA', page_icon='./static/galaxey
 
 # Add a sidebar to the web page. 
 with st.sidebar:
-    choose = option_menu("GalaxEye Space-PoHA (Pond Health Analysis)", ["Dashboard","Chlorophyll","Dissolved Oxygen","pH","Salinity","Turbidity","Custom Filter"],
+    choose = option_menu("Pond Health Analysis for Neuva Pescanova", ["Dashboard","Chlorophyll","Dissolved Oxygen","pH","Salinity","Turbidity","Custom Filter"],
                          icons=['graph-up', 'brightness-high', 'cloud-haze2', 'speedometer2', 'snow', 'moisture', 'funnel'],
                          menu_icon="app-indicator", default_index=0,
                          styles={
@@ -235,7 +235,9 @@ if choose == "Custom Filter":
     with col2:               # To display brand log
         option = st.radio('Select custom filter',("Chlorophyll","Dissolved Oxygen","pH","Salinity","Turbidity"))
         if option=="Chlorophyll":
-            value = st.slider('Select Chlorophyll Index Range', dataframe["Chlorophyll"].min(), dataframe["Chlorophyll"].max(), 0.1)
+            minvalue, maxvalue = st.slider('Select Chlorophyll Index range', dataframe["Chlorophyll"].min(), dataframe["Chlorophyll"].max(), (0.1, 0.2))
+            st.write('Minimum Chlorophyll:', str('%2f'%minvalue))
+            st.write('Maximum Chlorophyll:', str('%2f'%maxvalue))
             with col1:               # To display the header text using css style
                 map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
                 img = folium.raster_layers.ImageOverlay(
@@ -250,7 +252,7 @@ if choose == "Custom Filter":
                 img.add_to(map)
                 for l, row in enumerate(dataframe.iterrows()):
                     chlorophyll = '%.6f'%dataframe["Chlorophyll"][l]
-                    if float(chlorophyll)>float(value):
+                    if float(chlorophyll)>float(minvalue) and float(chlorophyll)<float(maxvalue):
                         html = popupTable(dataframe, l)
                         iframe = branca.element.IFrame(html=html,width=700,height=600)
                         popup = folium.Popup(folium.Html(html, script=True), max_width=500)
@@ -259,7 +261,11 @@ if choose == "Custom Filter":
                         continue
                 st_map = st_folium(map, width=1000, height=650)
         if option=="Dissolved Oxygen":
-            value = st.slider('Select Dissolved Oxygen Range (mg/L)', dataframe["DissolvedOxygen"].min(), dataframe["DissolvedOxygen"].max(), 0.1)
+            minvalue, maxvalue = st.slider('Select Dissolved Oxygen range', dataframe["DissolvedOxygen"].min(), dataframe["DissolvedOxygen"].max(), (8.5, 9.0))
+            st.write('Minimum Dissolved Oxygen:')
+            st.write(str(minvalue),"mg/L")
+            st.write('Maximum Dissolved Oxygen:')
+            st.write(str(maxvalue),"mg/L")
             with col1:               # To display the header text using css style
                 map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
                 img = folium.raster_layers.ImageOverlay(
@@ -274,7 +280,7 @@ if choose == "Custom Filter":
                 img.add_to(map)
                 for l, row in enumerate(dataframe.iterrows()):
                     dissolvedoxygen = '%.6f'%dataframe["DissolvedOxygen"][l]
-                    if float(dissolvedoxygen)>float(value):
+                    if float(dissolvedoxygen)>float(minvalue) and float(dissolvedoxygen)<maxvalue:
                         html = popupTable(dataframe, l)
                         iframe = branca.element.IFrame(html=html,width=700,height=600)
                         popup = folium.Popup(folium.Html(html, script=True), max_width=500)
@@ -283,7 +289,11 @@ if choose == "Custom Filter":
                         continue
                 st_map = st_folium(map, width=1000, height=650)
         if option=="pH":
-            value = st.slider('Select pH Range', 0.0, 14.0, 0.1)
+            minvalue, maxvalue = st.slider('Select pH range', dataframe["pH"].min(), dataframe["pH"].max(), (7.0, 9.0))
+            st.write('Minimum pH:')
+            st.write(str(minvalue))
+            st.write('Maximum pH:')
+            st.write(str(maxvalue))
             with col1:               # To display the header text using css style
                 map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
                 img = folium.raster_layers.ImageOverlay(
@@ -298,7 +308,7 @@ if choose == "Custom Filter":
                 img.add_to(map)
                 for l, row in enumerate(dataframe.iterrows()):
                     pH = '%.6f'%dataframe["pH"][l]
-                    if float(pH)>float(value):
+                    if float(pH)>float(minvalue) and float(pH)<float(maxvalue):
                         html = popupTable(dataframe, l)
                         iframe = branca.element.IFrame(html=html,width=700,height=600)
                         popup = folium.Popup(folium.Html(html, script=True), max_width=500)
@@ -307,7 +317,11 @@ if choose == "Custom Filter":
                         continue
                 st_map = st_folium(map, width=1000, height=650)
         if option=="Salinity":
-            value = st.slider('Select Salinity Range (ppt)', dataframe["Salinity"].min(), dataframe["Salinity"].max(), 0.1)
+            minvalue, maxvalue = st.slider('Select Salinity range', dataframe["Salinity"].min(), dataframe["Salinity"].max(), (0.2, 0.4))
+            st.write('Minimum Salinity:')
+            st.write(str(minvalue),"ppt")
+            st.write('Maximum Salinity:')
+            st.write(str(maxvalue),"ppt")
             with col1:               # To display the header text using css style
                 map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
                 img = folium.raster_layers.ImageOverlay(
@@ -322,7 +336,7 @@ if choose == "Custom Filter":
                 img.add_to(map)
                 for l, row in enumerate(dataframe.iterrows()):
                     salinity = '%.6f'%dataframe["Salinity"][l]
-                    if float(salinity)>float(value):
+                    if float(salinity)>float(minvalue) and float(salinity)<float(maxvalue):
                         html = popupTable(dataframe, l)
                         iframe = branca.element.IFrame(html=html,width=700,height=600)
                         popup = folium.Popup(folium.Html(html, script=True), max_width=500)
@@ -331,7 +345,11 @@ if choose == "Custom Filter":
                         continue
                 st_map = st_folium(map, width=1000, height=650)
         if option=="Turbidity":
-            value = st.slider('Select Turbidity Range (NTU)', 0, 100, 5)
+            minvalue, maxvalue = st.slider('Select Turbidity range', dataframe["Turbidity"].min(), dataframe["Turbidity"].max(), (20.0, 40.0))
+            st.write('Minimum Turbidity:')
+            st.write(str(minvalue),"NTU")
+            st.write('Maximum Turbidity:')
+            st.write(str(maxvalue),"NTU")
             with col1:               # To display the header text using css style
                 map = folium.Map(location=[-2.4474679490380993, -79.98500168575568], zoom_start=16, scrollWheelZoom=True, tiles='CartoDB positron')
                 img = folium.raster_layers.ImageOverlay(
@@ -346,7 +364,7 @@ if choose == "Custom Filter":
                 img.add_to(map)
                 for l, row in enumerate(dataframe.iterrows()):
                     turbidity = '%.6f'%dataframe["Turbidity"][l]
-                    if float(turbidity)>float(value):
+                    if float(turbidity)>float(minvalue) and float(turbidity)<float(maxvalue):
                         html = popupTable(dataframe, l)
                         iframe = branca.element.IFrame(html=html,width=700,height=600)
                         popup = folium.Popup(folium.Html(html, script=True), max_width=500)
