@@ -227,7 +227,7 @@ if choose == "Custom Filter":
         st.markdown(""" <style> .font {
         font-size:35px ; font-family: 'Cooper Black'; color: #ffffff;} 
         </style> """, unsafe_allow_html=True)
-        st.markdown('<p class="font">Water Turbidity Heatmap</p>', unsafe_allow_html=True)    
+        st.markdown('<p class="font">Custom Filter</p>', unsafe_allow_html=True)    
     with col2:               # To display brand log
         st.image(logo, width=130)
 
